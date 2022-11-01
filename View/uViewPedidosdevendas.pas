@@ -71,9 +71,10 @@ type
     procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
-    function buscaCliente(xcodigoCliente : integer) : boolean ;
-    function buscaProduto(xcodigoProduto : integer) : boolean ;
-    function valorTotalPedido(): Double ;
+    function  StringToFloat(Str:String)              : Extended ;
+    function  buscaCliente(xcodigoCliente : integer) : boolean ;
+    function  buscaProduto(xcodigoProduto : integer) : boolean ;
+    function  valorTotalPedido(): Double ;
     procedure limpaEditVenda()  ;
     procedure limpaEditPedido() ;
     procedure calculaValorTotalProduto() ;
@@ -308,7 +309,7 @@ begin
 
       if controllerPedidos.persistir then
       begin
-         ShowMessage('Registro Incluido....') ;
+         ShowMessage('Pedido cadastrado com sucesso.') ;
          ListViewItensPedido.Items.Clear ;
          EditNumeroPedido.Text := '0'      ;
          limpaEditVenda  ;
@@ -317,7 +318,7 @@ begin
       end
       else
       begin
-         ShowMessage('Erro não especificado....') ;
+         ShowMessage('Erro não especificado.') ;
       end;
    finally
       FreeAndNil(controllerPedidos) ;
@@ -332,8 +333,8 @@ var
 begin
    idList := EditCodigoProduto.Tag ;
    //Vou garantir a formatação dos Edits
-   EditQuantidade.Text    := FloatToStrF( StrToFloatDef(EditQuantidade.Text,0)    , ffNumber,15,2)  ;
-   EditValorUnitario.Text := FloatToStrF( StrToFloatDef(EditValorUnitario.Text,0) , ffNumber,15,2)  ;
+   EditQuantidade.Text    := FloatToStrF( StringToFloat(EditQuantidade.Text)    , ffNumber,15,2)  ;
+   EditValorUnitario.Text := FloatToStrF( StringToFloat(EditValorUnitario.Text) , ffNumber,15,2)  ;
    calculaValorTotalProduto ;
 
    if EditCodigoProduto.Text = EmptyStr then
@@ -342,7 +343,7 @@ begin
      exit ;
    end;
 
-   if StrToCurr(EditValorTotal.Text) <= 0 then
+   if StringToFloat(EditValorTotal.Text) <= 0 then
    begin
      EditQuantidade.SetFocus ;
      exit ;
@@ -538,9 +539,9 @@ begin
    EditCodigoProduto.Clear  ;
    EditNomeProduto.Clear    ;
    EditCodigoProduto.Tag   := 0 ;
-   EditQuantidade.Text    := '1'       ;
-   EditValorUnitario.Text := '0,00'    ;
-   EditValorTotal.Text    := 'R$ 0,00' ;
+   EditQuantidade.Text     := '1'       ;
+   EditValorUnitario.Text  := '0,00'    ;
+   EditValorTotal.Text     := 'R$ 0,00' ;
    PanelValorTotalPedido.Caption := FloatToStrF(valorTotalPedido,ffNumber,15,2) ;
 end;
 
@@ -583,6 +584,21 @@ begin
   end;
 end;
 
+function TFormPedidosdevendas.StringToFloat(Str: String): Extended;
+var
+ I : Integer ;
+ begin
+   Try
+      for i := Length(Str) downto 1 do
+         if not(Str[i] in ['0'..'9',',']) then
+            Delete(Str,i,1);
+
+      result := StrToFloat(Str)  ;
+   except
+      result := 0.00 ;
+   End;
+end;
+
 function TFormPedidosdevendas.valorTotalPedido: Double;
 var
   I      : integer ;
@@ -591,7 +607,7 @@ begin
   xvalor := 0 ;
   for I := 0  to pred(ListViewItensPedido.Items.Count) do
   begin
-     xvalor := xvalor  +  StrToFloatDef(ListViewItensPedido.Items[I].SubItems[4] ,0) ;
+     xvalor := xvalor  +  StringToFloat(ListViewItensPedido.Items[I].SubItems[4] ) ;
   end;
   result := xvalor ;
 end;

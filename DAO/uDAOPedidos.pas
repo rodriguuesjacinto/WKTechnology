@@ -29,9 +29,10 @@ var
   daoPedidosItens : TDAOPedidosItens ;
 begin
   try
+      TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+
       QPedidos := TControllerConexao.getInstance.daoConexao.criarQrery;
       try
-        TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
         QPedidos.ExecSQL('update pedidos set idclientes = :idclientes, ped_dataemissao = :ped_dataemissao, ped_valortotal = :ped_valortotal where idpedidos = :idpedidos',[ModelPedidos.intidclientes, ModelPedidos.datped_dataemissao, ModelPedidos.curped_valortotal, ModelPedidos.intidpedidos]) ;
         for I := 0 to pred(ModelPedidos.listaitenspedido.Count) do
         begin
@@ -61,14 +62,19 @@ var
   QPedidos : TFDQuery ;
 begin
   try
-    QPedidos := TControllerConexao.getInstance.daoConexao.criarQrery;
-    try
-      QPedidos.ExecSQL('delete from pedidos where idpedidos = :idpedidos',[ModelPedidos.intidpedidos]) ;
-    finally
-      FreeAndNil(QPedidos) ;
-    end;
+    TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+
+      QPedidos := TControllerConexao.getInstance.daoConexao.criarQrery;
+      try
+        QPedidos.ExecSQL('delete from pedidos where idpedidos = :idpedidos',[ModelPedidos.intidpedidos]) ;
+      finally
+        FreeAndNil(QPedidos) ;
+      end;
+
+    TControllerConexao.getInstance().daoConexao.getConexao.commit ;
     result := true ;
   except
+    TControllerConexao.getInstance().daoConexao.getConexao.Rollback ;
     result := false ;
   end;
 end;
@@ -82,7 +88,6 @@ var
   daoPedidosItens : TDAOPedidosItens ;
 begin
   try
-
     QPedidos   := TControllerConexao.getInstance.daoConexao.criarQrery;
     QParametro := TControllerConexao.getInstance.daoConexao.criarQrery;
     try

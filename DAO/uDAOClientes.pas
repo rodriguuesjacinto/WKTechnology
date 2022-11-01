@@ -42,14 +42,19 @@ var
   QClientes : TFDQuery ;
 begin
   try
+    TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+
     QClientes := TControllerConexao.getInstance.daoConexao.criarQrery;
     try
       QClientes.ExecSQL('delete from clientes where idclientes = :idclientes',[ModelClientes.intidclientes]) ;
     finally
       FreeAndNil(QClientes) ;
     end;
+
+    TControllerConexao.getInstance().daoConexao.getConexao.Commit ;
     result := true ;
   except
+    TControllerConexao.getInstance().daoConexao.getConexao.Rollback ;
     result := false ;
   end;
 end;
@@ -59,14 +64,19 @@ var
   QClientes : TFDQuery ;
 begin
   try
+     TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+
     QClientes := TControllerConexao.getInstance.daoConexao.criarQrery;
     try
       QClientes.ExecSQL('insert into clientes (cli_nome,cli_cidade,cli_uf) values (:cli_nome,:cli_cidade,:cli_uf)',[ModelClientes.strcli_nome, ModelClientes.strcli_cidade, ModelClientes.strcli_uf]) ;
     finally
       FreeAndNil(QClientes) ;
     end;
+
+    TControllerConexao.getInstance().daoConexao.getConexao.Commit ;
     result := true ;
   except
+    TControllerConexao.getInstance().daoConexao.getConexao.Rollback ;
     result := false ;
   end;
 end;

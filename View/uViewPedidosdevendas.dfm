@@ -461,7 +461,7 @@ object FormPedidosdevendas: TFormPedidosdevendas
     end
     object Label12: TLabel
       Left = 378
-      Top = 14
+      Top = 9
       Width = 81
       Height = 15
       Caption = 'Data do Pedido'
@@ -595,7 +595,7 @@ object FormPedidosdevendas: TFormPedidosdevendas
       Left = 229
       Top = 15
       Width = 133
-      Height = 37
+      Height = 33
       TabStop = False
       Alignment = taCenter
       Font.Charset = DEFAULT_CHARSET
@@ -641,7 +641,7 @@ object FormPedidosdevendas: TFormPedidosdevendas
     end
     object DatePedido: TMaskEdit
       Left = 378
-      Top = 29
+      Top = 24
       Width = 81
       Height = 23
       TabStop = False

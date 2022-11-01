@@ -25,14 +25,19 @@ var
   QProdutos : TFDQuery ;
 begin
   try
+    TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+
     QProdutos := TControllerConexao.getInstance.daoConexao.criarQrery;
     try
       QProdutos.ExecSQL('update produtos set prod_nome = :prod_nome,prod_valorparavenda = :prod_valorparavenda where idprodutos = :idprodutos',[ModelProdutos.strprod_nome, ModelProdutos.curprod_valorparavenda, ModelProdutos.intidprodutos]) ;
     finally
       FreeAndNil(QProdutos) ;
     end;
+
+    TControllerConexao.getInstance().daoConexao.getConexao.commit ;
     result := true ;
   except
+    TControllerConexao.getInstance().daoConexao.getConexao.Rollback ;
     result := false ;
   end;
 end;
@@ -42,14 +47,19 @@ var
   QProdutos : TFDQuery ;
 begin
   try
+    TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+
     QProdutos := TControllerConexao.getInstance.daoConexao.criarQrery;
     try
       QProdutos.ExecSQL('delete from produtos where idprodutos = :idprodutos',[ModelProdutos.intidprodutos]) ;
     finally
       FreeAndNil(QProdutos) ;
     end;
+
+    TControllerConexao.getInstance().daoConexao.getConexao.commit ;
     result := true ;
   except
+    TControllerConexao.getInstance().daoConexao.getConexao.Rollback ;
     result := false ;
   end;
 end;
@@ -59,14 +69,19 @@ var
   QProdutos : TFDQuery ;
 begin
   try
+    TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+
     QProdutos := TControllerConexao.getInstance.daoConexao.criarQrery;
     try
       QProdutos.ExecSQL('insert into produtos (prod_nome,prod_valorparavenda) values (:prod_nome,:prod_valorparavenda)',[ModelProdutos.strprod_nome, ModelProdutos.curprod_valorparavenda]) ;
     finally
       FreeAndNil(QProdutos) ;
     end;
+
+    TControllerConexao.getInstance().daoConexao.getConexao.commit ;
     result := true ;
   except
+    TControllerConexao.getInstance().daoConexao.getConexao.Rollback ;
     result := false ;
   end;
 end;
