@@ -1,0 +1,71 @@
+unit uModelProdutos;
+
+interface
+
+uses uEnumerador, System.SysUtils , FireDAC.Comp.Client ;
+
+type
+  TModelProdutos = class
+  private
+      FidProdutos : Integer ;
+      Fcli_nome   : String  ;
+      Fcli_cidade : String  ;
+      Fcli_uf     : String  ;
+      FEnumerador : TEnumerador;
+
+
+  public
+      property intidProdutos : Integer      read  FidProdutos   write FidProdutos   ;
+      property strcli_nome   : String       read  Fcli_nome     write Fcli_nome     ;
+      property strcli_cidade : String       read  Fcli_cidade   write Fcli_cidade   ;
+      property strcli_uf     : String       read  Fcli_uf       write Fcli_uf       ;
+      property enuTipo       : TEnumerador  read  FEnumerador   write FEnumerador   ;
+
+      function persistir  : Boolean ;
+      function selecionar : TFDQuery ;
+
+
+  end;
+
+
+implementation
+
+uses uDAOProdutos ;
+
+{ TModelProdutos }
+
+
+function TModelProdutos.persistir: Boolean;
+var
+  daoProdutos : TDAOProdutos ;
+begin
+  daoProdutos := TDAOProdutos.Create ;
+  try
+      case FEnumerador of
+        tipoIncluir:
+          result := daoProdutos.incluir(self) ;
+        tipoExcluir:
+          result := daoProdutos.excluir(self) ;
+        tipoAlterar:
+          result := daoProdutos.alterar(self) ;
+      end;
+  finally
+    FreeAndNil(daoProdutos) ;
+  end;
+end;
+
+function TModelProdutos.selecionar: TFDQuery;
+var
+  daoProdutos : TDAOProdutos ;
+begin
+  daoProdutos := TDAOProdutos.Create ;
+  try
+    result := daoProdutos.selecionarprodutos ;
+  finally
+    FreeAndNil(daoProdutos) ;
+  end;
+
+end;
+
+end.
+

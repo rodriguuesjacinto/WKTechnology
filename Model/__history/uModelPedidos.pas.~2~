@@ -1,0 +1,70 @@
+unit uModelPedidos;
+
+interface
+uses uEnumerador, System.SysUtils , FireDAC.Comp.Client ;
+
+type
+  TModelPedidos = class
+  private
+
+      Fidpedidos             : Integer ;
+      Fidclientes            : Integer ;
+      Fped_dataemissao       : TDate   ;
+      Fped_valortotal        : Double  ;
+      FEnumerador            : TEnumerador;
+
+  public
+      property  intidpedidos         : Integer       read  Fidpedidos               write Fidpedidos            ;
+      property  intidclientes        : Integer       read  Fidclientes              write Fidclientes           ;
+      property  datped_dataemissao   : TDate         read  Fped_dataemissao         write Fped_dataemissao      ;
+      property  curped_valortotal    : Double        read  Fped_valortotal          write Fped_valortotal       ;
+      property  enuTipo              : TEnumerador   read  FEnumerador              write FEnumerador           ;
+
+      function persistir  : Boolean  ;
+      function selecionar : TFDQuery ;
+
+
+  end;
+
+
+implementation
+
+uses uDAOPedidos ;
+
+{ TModelPedidos }
+
+
+function TModelPedidos.persistir: Boolean;
+var
+  daoPedidos : TDAOPedidos ;
+begin
+  daoPedidos := TDAOPedidos.Create ;
+  try
+      case FEnumerador of
+        tipoIncluir:
+          result := daoPedidos.incluir(self) ;
+        tipoExcluir:
+          result := daoPedidos.excluir(self) ;
+        tipoAlterar:
+          result := daoPedidos.alterar(self) ;
+      end;
+  finally
+    FreeAndNil(daoPedidos) ;
+  end;
+end;
+
+function TModelPedidos.selecionar: TFDQuery;
+var
+  daoPedidos : TDAOPedidos ;
+begin
+  daoPedidos := TDAOPedidos.Create ;
+  try
+    result := daoPedidos.selecionarPedidos(self) ;
+  finally
+    FreeAndNil(daoPedidos) ;
+  end;
+
+end;
+
+end.
+

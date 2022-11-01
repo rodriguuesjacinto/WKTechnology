@@ -1,0 +1,75 @@
+unit uModelPedidosItens;
+
+interface
+
+uses uEnumerador, System.SysUtils , FireDAC.Comp.Client ;
+
+type
+  TModelPedidosItens = class
+  private
+
+      Fidpedidos_itens       : Integer ;
+      Fidpedidos             : Integer ;
+      Fidprodutos            : Integer ;
+      Fite_quantidade        : Double  ;
+      Fite_valorunitario     : Double  ;
+      Fite_valortotal        : Double  ;
+      FEnumerador           : TEnumerador;
+
+  public
+      property  intidpedidos_itens     : Integer       read  Fidpedidos_itens         write Fidpedidos_itens    ;
+      property  intidpedidos           : Integer       read  Fidpedidos               write Fidpedidos          ;
+      property  intidprodutos          : Integer       read  Fidprodutos              write Fidprodutos         ;
+      property  curite_quantidade      : Double        read  Fite_quantidade          write Fite_quantidade     ;
+      property  curite_valorunitario   : Double        read  Fite_valorunitario       write Fite_valorunitario  ;
+      property  curite_valortotal      : Double        read  Fite_valortotal          write Fite_valortotal     ;
+      property  enuTipo                : TEnumerador   read  FEnumerador              write FEnumerador         ;
+
+      function persistir  : Boolean  ;
+      function selecionar : TFDQuery ;
+
+
+  end;
+
+
+implementation
+
+uses uDAOPedidosItens ;
+
+{ TModelPedidosItens }
+
+
+function TModelPedidosItens.persistir: Boolean;
+var
+  daoPedidosItens : TDAOPedidosItens ;
+begin
+  daoPedidosItens := TDAOPedidosItens.Create ;
+  try
+      case FEnumerador of
+        tipoIncluir:
+          result := daoPedidosItens.incluir(self) ;
+        tipoExcluir:
+          result := daoPedidosItens.excluir(self) ;
+        tipoAlterar:
+          result := daoPedidosItens.alterar(self) ;
+      end;
+  finally
+    FreeAndNil(daoPedidosItens) ;
+  end;
+end;
+
+function TModelPedidosItens.selecionar: TFDQuery;
+var
+  daoPedidosItens : TDAOPedidosItens ;
+begin
+  daoPedidosItens := TDAOPedidosItens.Create ;
+  try
+    result := daoPedidosItens.selecionarPedidosItens(self) ;
+  finally
+    FreeAndNil(daoPedidosItens) ;
+  end;
+
+end;
+
+end.
+

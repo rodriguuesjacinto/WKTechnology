@@ -1,0 +1,83 @@
+unit uDAOProdutos;
+
+interface
+
+uses System.SysUtils, uModelProdutos, FireDAC.Comp.Client, uControllerConexao, FireDAC.DApt ;
+
+type
+  TDAOProdutos = class
+
+  public
+    function selecionarprodutos: TFDQuery;
+    function incluir (ModelProdutos : TModelProdutos): Boolean;
+    function excluir (ModelProdutos : TModelProdutos): Boolean;
+    function alterar (ModelProdutos : TModelProdutos): Boolean;
+
+  end;
+
+implementation
+
+{ TDAOProdutos }
+
+
+function TDAOProdutos.alterar(ModelProdutos: TModelProdutos): Boolean;
+var
+  QProdutos : TFDQuery ;
+begin
+  try
+    QProdutos := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QProdutos.ExecSQL('update Produtos set cli_nome = :cli_nome,cli_cidade = :cli_cidade,cli_uf = :cli_uf where idProdutos = :idProdutos',[ModelProdutos.strcli_nome, ModelProdutos.strcli_cidade, ModelProdutos.strcli_uf, ModelProdutos.intidProdutos]) ;
+    finally
+      FreeAndNil(QProdutos) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOProdutos.excluir(ModelProdutos: TModelProdutos): Boolean;
+var
+  QProdutos : TFDQuery ;
+begin
+  try
+    QProdutos := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QProdutos.ExecSQL('delete from Produtos where idProdutos = :idProdutos',[ModelProdutos.intidProdutos]) ;
+    finally
+      FreeAndNil(QProdutos) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOProdutos.incluir(ModelProdutos: TModelProdutos): Boolean;
+var
+  QProdutos : TFDQuery ;
+begin
+  try
+    QProdutos := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QProdutos.ExecSQL('insert into Produtos (cli_nome,cli_cidade,cli_uf) values (:cli_nome,:cli_cidade,:cli_uf)',[ModelProdutos.strcli_nome, ModelProdutos.strcli_cidade, ModelProdutos.strcli_uf]) ;
+    finally
+      FreeAndNil(QProdutos) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOProdutos.selecionarprodutos: TFDQuery;
+var
+  QProdutos : TFDQuery ;
+begin
+  QProdutos := TControllerConexao.getInstance.daoConexao.criarQrery;
+  QProdutos.Open('') ;
+  result := QProdutos ;
+end;
+
+end.

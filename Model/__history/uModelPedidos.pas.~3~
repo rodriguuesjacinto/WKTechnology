@@ -1,0 +1,89 @@
+unit uModelPedidos;
+
+interface
+uses uEnumerador, System.SysUtils , FireDAC.Comp.Client, System.Generics.Collections ;
+
+type
+  TModelPedidos = class
+  private
+
+      Fidpedidos             : Integer ;
+      Fidclientes            : Integer ;
+      Fped_dataemissao       : TDate   ;
+      Fped_valortotal        : Double  ;
+      FListaitenspedido      : TObjectList;
+      FEnumerador            : TEnumerador;
+
+
+  public
+      property  intidpedidos         : Integer       read  Fidpedidos               write Fidpedidos            ;
+      property  intidclientes        : Integer       read  Fidclientes              write Fidclientes           ;
+      property  datped_dataemissao   : TDate         read  Fped_dataemissao         write Fped_dataemissao      ;
+      property  curped_valortotal    : Double        read  Fped_valortotal          write Fped_valortotal       ;
+      property  litaitenspedido      : TObjectList   read  FListaitenspedido        write FListaitenspedido     ;
+      property  enuTipo              : TEnumerador   read  FEnumerador              write FEnumerador           ;
+
+
+      constructor Create;
+      destructor destroy; override;
+
+      function persistir  : Boolean  ;
+      function selecionar : TFDQuery ;
+
+
+  end;
+
+
+implementation
+
+uses uDAOPedidos ;
+
+{ TModelPedidos }
+
+
+constructor TModelPedidos.Create;
+begin
+  inherited Create ;
+  FListaitenspedido  := TObjectList.Create ;
+end;
+
+destructor TModelPedidos.destroy;
+begin
+  inherited;
+  FreeAndNil(FListaitenspedido) ;
+end;
+
+function TModelPedidos.persistir: Boolean;
+var
+  daoPedidos : TDAOPedidos ;
+begin
+  daoPedidos := TDAOPedidos.Create ;
+  try
+      case FEnumerador of
+        tipoIncluir:
+          result := daoPedidos.incluir(self) ;
+        tipoExcluir:
+          result := daoPedidos.excluir(self) ;
+        tipoAlterar:
+          result := daoPedidos.alterar(self) ;
+      end;
+  finally
+    FreeAndNil(daoPedidos) ;
+  end;
+end;
+
+function TModelPedidos.selecionar: TFDQuery;
+var
+  daoPedidos : TDAOPedidos ;
+begin
+  daoPedidos := TDAOPedidos.Create ;
+  try
+    result := daoPedidos.selecionarPedidos(self) ;
+  finally
+    FreeAndNil(daoPedidos) ;
+  end;
+
+end;
+
+end.
+

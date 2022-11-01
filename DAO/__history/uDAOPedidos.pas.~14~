@@ -1,0 +1,113 @@
+unit uDAOPedidos;
+
+interface
+
+uses System.SysUtils, uModelPedidos, FireDAC.Comp.Client, uControllerConexao, FireDAC.DApt, uEnumerador ;
+
+type
+  TDAOPedidos = class
+
+  public
+    function selecionarPedidos(ModelPedidos : TModelPedidos): TFDQuery;
+    function incluir (ModelPedidos : TModelPedidos): Boolean;
+    function excluir (ModelPedidos : TModelPedidos): Boolean;
+    function alterar (ModelPedidos : TModelPedidos): Boolean;
+
+  end;
+
+implementation
+
+{ TDAOPedidos }
+
+uses uDAOPedidosItens, uModelPedidosItens ;
+
+
+function TDAOPedidos.alterar(ModelPedidos: TModelPedidos): Boolean;
+var
+  QPedidos : TFDQuery ;
+begin
+  try
+    QPedidos := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QPedidos.ExecSQL('update pedidos set idclientes = :idclientes, ped_dataemissao = :ped_dataemissao, ped_valortotal = :ped_valortotal where idpedidos = :idpedidos',[ModelPedidos.intidclientes, ModelPedidos.datped_dataemissao, ModelPedidos.curped_valortotal, ModelPedidos.intidpedidos]) ;
+    finally
+      FreeAndNil(QPedidos) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOPedidos.excluir(ModelPedidos: TModelPedidos): Boolean;
+var
+  QPedidos : TFDQuery ;
+begin
+  try
+    QPedidos := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QPedidos.ExecSQL('delete from pedidos where idpedidos = :idpedidos',[ModelPedidos.intidpedidos]) ;
+    finally
+      FreeAndNil(QPedidos) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOPedidos.incluir(ModelPedidos: TModelPedidos): Boolean;
+var
+  QPedidos        : TFDQuery ;
+  QParametro      : TFDQuery ;
+  I               : integer  ;
+  nPedido         : integer  ;
+  daoPedidosItens : TDAOPedidosItens ;
+begin
+  try
+
+    QPedidos := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      TControllerConexao.getInstance().daoConexao.getConexao.StartTransaction ;
+      QPedidos.ExecSQL('insert into pedidos (idpedidos, idclientes, ped_dataemissao, ped_valortotal) values (:idpedidos, :idclientes, :ped_dataemissao, :ped_valortotal)',[ModelPedidos.intidpedidos, ModelPedidos.intidclientes, ModelPedidos.datped_dataemissao, ModelPedidos.curped_valortotal]) ;
+      // Pego o Numero do Pedido
+      QParametro.Open('SELECT numerodopedido FROM parametros where idparametros = 1') ;
+      nPedido := QParametro.FieldByName('numerodopedido').AsInteger ;
+
+      for I := 0 to pred(ModelPedidos.listaitenspedido.Count) do
+      begin
+          (ModelPedidos.listaitenspedido.Items[I] as TModelPedidosItens).intidpedidos := nPedido ;
+          case (ModelPedidos.listaitenspedido.Items[I] as TModelPedidosItens).enuTipo of
+            tipoIncluir:
+              daoPedidosItens.incluir((ModelPedidos.listaitenspedido.Items[I] as TModelPedidosItens)) ;
+            tipoExcluir:
+              daoPedidosItens.excluir((ModelPedidos.listaitenspedido.Items[I] as TModelPedidosItens)) ;
+            tipoAlterar:
+              daoPedidosItens.alterar((ModelPedidos.listaitenspedido.Items[I] as TModelPedidosItens)) ;
+          end;
+
+      end;
+
+      TControllerConexao.getInstance().daoConexao.getConexao.Commit ;
+      result := true ;
+    except
+      TControllerConexao.getInstance().daoConexao.getConexao.Rollback ;
+      result := false ;
+    end;
+
+  finally
+    FreeAndNil(QPedidos) ;
+    FreeAndNil(QParametro) ;
+  end;
+end;
+
+function TDAOPedidos.selecionarPedidos(ModelPedidos : TModelPedidos): TFDQuery;
+var
+  QPedidos : TFDQuery ;
+begin
+  QPedidos := TControllerConexao.getInstance.daoConexao.criarQrery;
+  QPedidos.Open('select * from pedidos where idpedidos = :idpedidos', [ModelPedidos.intidpedidos]) ;
+  result := QPedidos ;
+end;
+
+end.

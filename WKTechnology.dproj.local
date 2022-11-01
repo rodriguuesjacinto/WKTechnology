@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/10/30 13:33:03.000.271,=D:\Users\RTI SISTEMAS 01\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/10/30 13:34:16.000.922,D:\Users\RTI SISTEMAS 01\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\WKTechnology\View\uViewPedidosdevendas.dfm</Transaction>
+    <Transaction>2022/10/30 13:34:16.000.922,D:\Users\RTI SISTEMAS 01\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\WKTechnology\View\uViewPedidosdevendas.pas</Transaction>
+    <Transaction>2022/10/30 13:35:36.000.237,D:\Users\RTI SISTEMAS 01\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\WKTechnology\WKTechnology.dproj</Transaction>
+    <Transaction>2022/10/30 13:39:54.000.979,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/30 17:08:06.000.586,=D:\WKTechnology\Unit2.pas</Transaction>
+    <Transaction>2022/10/30 18:26:17.000.996,D:\WKTechnology\Unit1.pas=D:\WKTechnology\Controller\uControllerConexao.pas</Transaction>
+    <Transaction>2022/10/30 18:26:39.000.633,D:\WKTechnology\Unit2.pas=D:\WKTechnology\DAO\uDAOConexao.pas</Transaction>
+    <Transaction>2022/10/30 19:39:08.000.472,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/30 19:48:46.000.757,D:\WKTechnology\Unit1.pas=D:\WKTechnology\Model\uModelClientes.pas</Transaction>
+    <Transaction>2022/10/30 20:03:17.000.460,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/30 20:03:52.000.661,D:\WKTechnology\Unit1.pas=D:\WKTechnology\Controller\uControllerClientes.pas</Transaction>
+    <Transaction>2022/10/30 20:11:50.000.756,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/30 20:12:23.000.832,D:\WKTechnology\Unit1.pas=D:\WKTechnology\DAO\uDAOClientes.pas</Transaction>
+    <Transaction>2022/10/30 20:44:18.000.488,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/30 20:48:11.000.140,D:\WKTechnology\Unit1.pas=D:\WKTechnology\Model\uModelEnumeradores.pas</Transaction>
+    <Transaction>2022/10/30 20:58:09.000.602,D:\WKTechnology\Model\uModelEnumeradores.pas=D:\WKTechnology\Model\uEnumerador.pas</Transaction>
+    <Transaction>2022/10/31 00:00:02.000.571,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 00:00:33.000.926,D:\WKTechnology\Unit1.pas=D:\WKTechnology\Model\uModelProdutos.pas</Transaction>
+    <Transaction>2022/10/31 00:02:03.000.036,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 00:02:23.000.251,D:\WKTechnology\Unit1.pas=D:\WKTechnology\DAO\uDAOProdutos.pas</Transaction>
+    <Transaction>2022/10/31 00:19:43.000.096,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 00:20:38.000.482,D:\WKTechnology\Unit1.pas=D:\WKTechnology\Controller\uControllerProdutos.pas</Transaction>
+    <Transaction>2022/10/31 10:14:11.000.475,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 10:15:32.000.209,D:\WKTechnology\Model\uModelPedidosItens.pas=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 10:25:17.000.145,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 10:25:55.000.432,D:\WKTechnology\DAO\uDAOPedidosItens.pas=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 10:47:13.000.059,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 10:47:59.000.066,D:\WKTechnology\Model\uModelPedidos.pas=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 10:55:33.000.239,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/10/31 10:55:55.000.979,D:\WKTechnology\DAO\uDAOPedidos.pas=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/11/01 01:21:54.000.911,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/11/01 01:22:21.000.900,D:\WKTechnology\Unit1.pas=D:\WKTechnology\Controller\uControllerPedidos.pas</Transaction>
+    <Transaction>2022/11/01 05:09:34.625,=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/11/01 05:10:09.838,D:\WKTechnology\Controller\uControllerPedidosItens.pas=D:\WKTechnology\Unit1.pas</Transaction>
+    <Transaction>2022/11/01 11:41:44.707,=D:\WKTechnology\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

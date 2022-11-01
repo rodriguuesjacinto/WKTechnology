@@ -1,0 +1,85 @@
+unit uDAOConexao;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, System.Classes, Data.DB,
+  FireDAC.Comp.Client, FireDAC.Phys.MySQL, SysUtils,  IniFiles;;
+
+type
+  TDAOConexao = class
+  private
+    FConexao: TFDConnection;
+    FMySQLDriverLink : TFDPhysMySQLDriverLink ;
+
+  public
+    function getConexao: TFDConnection;
+    function criarQrery: TFDQuery;
+
+
+    constructor Create;
+    destructor Destroy; Override;
+
+    procedure LerIni() ;
+
+  end;
+
+implementation
+
+{ TDAOConexao }
+var
+  cVendorLib, cDriverID , cDatabase, cUserName, cPassword , cPort : String ;
+constructor TDAOConexao.Create;
+begin
+  inherited Create;
+
+  FMySQLDriverLink  := TFDPhysMySQLDriverLink.Create(nil) ;
+  FMySQLDriverLink.VendorLib := 'D:\WKTechnology\libmysql.dll' ;
+
+  FConexao := TFDConnection.Create(nil);
+  FConexao.Params.DriverID := 'MYSQL' ;
+  FConexao.Params.Database := 'mydb'  ;
+  FConexao.Params.UserName := 'root'  ;
+  FConexao.Params.Password := '123456';
+  FConexao.Params.Add('Port=49156')   ;
+
+end;
+
+function TDAOConexao.criarQrery: TFDQuery;
+var
+  Query : TFDQuery ;
+begin
+  Query            := TFDQuery.Create(nil) ;
+  Query.Connection := FConexao;
+
+  result := Query ;
+end;
+
+destructor TDAOConexao.Destroy;
+begin
+  inherited;
+  FreeAndNil(FConexao);
+  FreeAndNil(FMySQLDriverLink);
+end;
+
+function TDAOConexao.getConexao: TFDConnection;
+begin
+  result := FConexao;
+end;
+
+procedure TDAOConexao.LerIni;
+var
+  ArquivoINI: TIniFile;
+begin
+   ArquivoINI := TIniFile.Create('D:\WKTechnology\MySQL.ini');
+   ArquivoINI.WriteString('mysql', 'cVendorLib', cVendorLib);
+   ArquivoINI.WriteString('mysql', 'cDriverID', cDriverID);
+   ArquivoINI.WriteString('mysql', 'cDatabase', cDatabase);
+   ArquivoINI.WriteString('mysql', 'cUserName', cUserName);
+   ArquivoINI.WriteString('mysql', 'cPassword', cVendorLib);
+   ArquivoINI.WriteString('mysql', 'cPort', cPort);
+   ArquivoINI.Free ;
+end;
+
+end.

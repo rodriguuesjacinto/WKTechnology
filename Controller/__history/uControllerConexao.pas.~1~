@@ -1,0 +1,53 @@
+unit uControllerConexao;
+
+interface
+
+Type
+
+    TControllerConexao = class
+    private
+      { private declarations }
+      constructor Create ;
+      destructor Destroy ; Override ;
+    protected
+      { protected declarations }
+    public
+      { public declarations }
+
+    published
+      { published declarations }
+      class function getInstance : TControllerConexao ;
+    end;
+
+implementation
+
+var
+  instanciaBD :  TControllerConexao ;
+
+{ TControllerConexao }
+
+constructor TControllerConexao.Create;
+begin
+  inherited Create;
+end;
+
+destructor TControllerConexao.Destroy;
+begin
+  inherited;
+end;
+
+class function TControllerConexao.getInstance: TControllerConexao;
+begin
+  if instanciaBD = nil then
+     instanciaBD := TControllerConexao.Create;
+  result := instanciaBD;
+end;
+
+initialization
+  instanciaBD := nil
+
+finalization
+  if instanciaBD <> nil then
+     instanciaBD.Free ;
+
+end.

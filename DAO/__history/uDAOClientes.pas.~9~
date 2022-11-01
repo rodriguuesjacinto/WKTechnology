@@ -1,0 +1,84 @@
+unit uDAOClientes;
+
+interface
+
+uses System.SysUtils, uModelClientes, FireDAC.Comp.Client ;
+
+type
+  TDAOClientes = class
+
+  public
+    function selecionarcliente: TFDQuery;
+    function incluir (ModelClientes : TModelClientes): Boolean;
+    function excluir (ModelClientes : TModelClientes): Boolean;
+    function alterar (ModelClientes : TModelClientes): Boolean;
+
+  end;
+
+implementation
+
+{ TDAOClientes }
+
+uses uControllerConexao ;
+
+function TDAOClientes.alterar(ModelClientes: TModelClientes): Boolean;
+var
+  QClientes : TFDQuery ;
+begin
+  try
+    QClientes := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QClientes.ExecSQL('sql') ;
+    finally
+      FreeAndNil(QClientes) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOClientes.excluir(ModelClientes: TModelClientes): Boolean;
+var
+  QClientes : TFDQuery ;
+begin
+  try
+    QClientes := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QClientes.ExecSQL('sql') ;
+    finally
+      FreeAndNil(QClientes) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOClientes.incluir(ModelClientes: TModelClientes): Boolean;
+var
+  QClientes : TFDQuery ;
+begin
+  try
+    QClientes := TControllerConexao.getInstance.daoConexao.criarQrery;
+    try
+      QClientes.ExecSQL('insert into clientes(cli_nome,cli_cidade,cli_uf) values (:cli_nome,:cli_cidade,:cli_uf)',[ModelClientes.strcli_nome, ModelClientes.strcli_cidade, ModelClientes.strcli_uf]) ;
+    finally
+      FreeAndNil(QClientes) ;
+    end;
+    result := true ;
+  except
+    result := false ;
+  end;
+end;
+
+function TDAOClientes.selecionarcliente: TFDQuery;
+var
+  QClientes : TFDQuery ;
+begin
+  QClientes := TControllerConexao.getInstance.daoConexao.criarQrery;
+  QClientes.Open('') ;
+  result := QClientes ;
+end;
+
+end.
