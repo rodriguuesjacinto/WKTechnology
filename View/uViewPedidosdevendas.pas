@@ -178,7 +178,7 @@ begin
          end
          else
          begin
-            showmessage('Numero de Pedido n„o encontrado tente novamete.');
+            showmessage('Numero de Pedido n√£o encontrado tente novamete.');
             exit ;
          end
       end;
@@ -216,7 +216,7 @@ var
  numeroPedido : String ;
  controllerPedidos : TControllerPedidos ;
 begin
-   if not(InputQuery('Excluir Pedido','   AtenÁ„o essa aÁ„o ira excluir os dados do Pedido.'+#13+#13+'  Informe o numero do Pedido.'+#13, numeroPedido)) then
+   if not(InputQuery('Excluir Pedido','   Aten√ß√£o essa a√ß√£o ira excluir os dados do Pedido.'+#13+#13+'  Informe o numero do Pedido.'+#13, numeroPedido)) then
       exit
    else
    begin
@@ -246,7 +246,7 @@ begin
       end
       else
       begin
-         ShowMessage('Erro n„o especificado....') ;
+         ShowMessage('Erro n√£o especificado....') ;
       end;
    finally
       FreeAndNil(controllerPedidos) ;
@@ -267,7 +267,7 @@ begin
          intidpedidos           := StrToIntDef(EditNumeroPedido.Text,0)  ;
          intidclientes          := StrToIntDef(EditCodCliente.Text,0)    ;
          datped_dataemissao     := FormatDateTime('yyyy-mm-dd',date())   ;
-         curped_valortotal      := StrToFloatDef(PanelValorTotalPedido.Caption,0) ;
+         curped_valortotal      := StringToFloat(PanelValorTotalPedido.Caption) ;
          if StrToIntDef(EditNumeroPedido.Text,0) = 0 then
             enuTipo := uEnumerador.tipoIncluir
          else
@@ -283,9 +283,9 @@ begin
                intidpedidos_itens       := StrToIntDef(ListViewItensPedido.Items[I].Caption,0)        ;
                intidpedidos             := StrToIntDef(EditNumeroPedido.Text,0)  ;
                intidprodutos            := StrToIntDef(ListViewItensPedido.Items[I].SubItems[0],0)    ;
-               curite_quantidade        := StrToFloatDef(ListViewItensPedido.Items[I].SubItems[2] ,0) ;
-               curite_valorunitario     := StrToFloatDef(ListViewItensPedido.Items[I].SubItems[3] ,0) ;
-               curite_valortotal        := StrToFloatDef(ListViewItensPedido.Items[I].SubItems[4] ,0) ;
+               curite_quantidade        := StringToFloat(ListViewItensPedido.Items[I].SubItems[2]) ;
+               curite_valorunitario     := StringToFloat(ListViewItensPedido.Items[I].SubItems[3]) ;
+               curite_valortotal        := StringToFloat(ListViewItensPedido.Items[I].SubItems[4]) ;
                if StrToIntDef(ListViewItensPedido.Items[I].Caption,0) = 0 then
                  enuTipo  := uEnumerador.tipoIncluir
                else
@@ -318,7 +318,7 @@ begin
       end
       else
       begin
-         ShowMessage('Erro n„o especificado.') ;
+         ShowMessage('Erro n√£o especificado.') ;
       end;
    finally
       FreeAndNil(controllerPedidos) ;
@@ -332,7 +332,7 @@ var
   idList   : Integer    ;
 begin
    idList := EditCodigoProduto.Tag ;
-   //Vou garantir a formataÁ„o dos Edits
+   //Vou garantir a formata√ß√£o dos Edits
    EditQuantidade.Text    := FloatToStrF( StringToFloat(EditQuantidade.Text)    , ffNumber,15,2)  ;
    EditValorUnitario.Text := FloatToStrF( StringToFloat(EditValorUnitario.Text) , ffNumber,15,2)  ;
    calculaValorTotalProduto ;
@@ -362,7 +362,7 @@ begin
    end
    else
    begin
-       // AlteraÁ„o os produtos noo List
+       // Altera√ß√£o os produtos noo List
       ListViewItensPedido.Items[idList-1].SubItems[0] :=  EditCodigoProduto.Text ;
       ListViewItensPedido.Items[idList-1].SubItems[1] :=  EditNomeProduto.Text   ;
       ListViewItensPedido.Items[idList-1].SubItems[2] :=  EditQuantidade.Text    ;
@@ -379,7 +379,7 @@ end;
 
 procedure TFormPedidosdevendas.calculaValorTotalProduto;
 begin
-   EditValorTotal.Text    := FloatToStrF( StrToFloatDef(EditQuantidade.Text,0) * StrToFloatDef(EditValorUnitario.Text,0) , ffNumber,15,2)  ;
+   EditValorTotal.Text    := FloatToStrF( StringToFloat(EditQuantidade.Text) * StringToFloat(EditValorUnitario.Text) , ffNumber,15,2)  ;
 end;
 
 procedure TFormPedidosdevendas.EditCodClienteChange(Sender: TObject);
@@ -407,7 +407,7 @@ begin
    end;
    if not(buscaCliente(StrToIntDef(EditCodCliente.Text,0))) then
    begin
-      ShowMessage('AtenÁ„o !!!'+#13+#13+'    Cliente n„o Localizado.') ;
+      ShowMessage('Aten√ß√£o !!!'+#13+#13+'    Cliente n√£o Localizado.') ;
       limpaEditPedido ;
       limpaEditVenda  ;
       EditCodCliente.SetFocus ;
@@ -443,7 +443,7 @@ begin
    end;
    if not(buscaProduto(StrToIntDef(EditCodigoProduto.Text,0))) then
    begin
-      ShowMessage('AtenÁ„o !!!'+#13+#13+'    Produto n„o Localizado.') ;
+      ShowMessage('Aten√ß√£o !!!'+#13+#13+'    Produto n√£o Localizado.') ;
       limpaEditVenda ;
       EditCodigoProduto.SetFocus ;
    end
@@ -474,7 +474,7 @@ end;
 
 procedure TFormPedidosdevendas.EditQuantidadeExit(Sender: TObject);
 begin
-   EditQuantidade.Text    := FloatToStrF( StrToFloatDef(EditQuantidade.Text,0)    , ffNumber,15,2)  ;
+   EditQuantidade.Text    := FloatToStrF( StringToFloat(EditQuantidade.Text)    , ffNumber,15,2)  ;
    calculaValorTotalProduto ;
 end;
 
@@ -500,7 +500,7 @@ end;
 
 procedure TFormPedidosdevendas.EditValorUnitarioExit(Sender: TObject);
 begin
-   EditValorUnitario.Text := FloatToStrF( StrToFloatDef(EditValorUnitario.Text,0) , ffNumber,15,2)  ;
+   EditValorUnitario.Text := FloatToStrF( StringToFloat(EditValorUnitario.Text) , ffNumber,15,2)  ;
    calculaValorTotalProduto ;
 end;
 
@@ -554,7 +554,7 @@ begin
   begin
       if not( ((ListViewItensPedido.Selected = nil)or(ListViewItensPedido.Items.Count = 0)) ) then
       begin
-          if MessageBox(Handle,'   Confirmar a exclus„o do produto selecionado ?','AtenÁ„o !!!',mb_YesNo+mb_IconInformation) = IDYES   then
+          if MessageBox(Handle,'   Confirmar a exclus√£o do produto selecionado ?','Aten√ß√£o !!!',mb_YesNo+mb_IconInformation) = IDYES   then
           begin
              if ListViewItensPedido.Selected.Caption <> '0' then
              begin
@@ -573,7 +573,7 @@ begin
 
   if key = 13 then
   begin
-      //vou carregar os dados para alteraÁ„o
+      //vou carregar os dados para altera√ß√£o
       EditCodigoProduto.Tag  :=  ListViewItensPedido.Selected.Index + 1   ;
       EditCodigoProduto.Text :=  ListViewItensPedido.Selected.SubItems[0] ;
       EditNomeProduto.Text   :=  ListViewItensPedido.Selected.SubItems[1] ;
