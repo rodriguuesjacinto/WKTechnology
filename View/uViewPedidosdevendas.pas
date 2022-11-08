@@ -261,6 +261,13 @@ var
  controllerPedidos : TControllerPedidos ;
  modelPedidosItens : TModelPedidosItens ;
 begin
+      if (EditCodCliente.Text = EmptyStr) then
+      begin
+         ShowMessage('Cliente deve ser selecionado.') ;
+         exit ;
+      end;
+
+
       try
       controllerPedidos := TControllerPedidos.Create;
       with controllerPedidos.ModelPedidos do
