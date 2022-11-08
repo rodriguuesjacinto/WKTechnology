@@ -267,6 +267,11 @@ begin
          exit ;
       end;
 
+      if (ListViewItensPedido.Items.Count = 0) then
+      begin
+         ShowMessage('Pedido deve conter produtos.') ;
+         exit ;
+      end;
 
       try
       controllerPedidos := TControllerPedidos.Create;
