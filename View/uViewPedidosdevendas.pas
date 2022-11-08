@@ -69,6 +69,7 @@ type
     procedure ButtonCancelarPedidoClick(Sender: TObject);
     procedure ButtonAbrirPedidoClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     function  StringToFloat(Str:String)              : Extended ;
@@ -523,6 +524,12 @@ procedure TFormPedidosdevendas.FormActivate(Sender: TObject);
 begin
   ListItensPedidosDeletados.Items.Clear ;
   ListViewItensPedido.Items.Clear ;
+end;
+
+procedure TFormPedidosdevendas.FormCreate(Sender: TObject);
+begin
+   TControllerConexao.getInstance().daoConexao.getConexao.Open ;
+   DatePedido.Text              := FormatDateTime('dd/MM/yy',date()) ;
 end;
 
 procedure TFormPedidosdevendas.limpaEditPedido;
