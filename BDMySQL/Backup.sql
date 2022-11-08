@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
--- Host: database-1.ctquhawkwbqz.us-east-1.rds.amazonaws.com    Database: mydb
+-- Host: database-1.ctquhawkwbqz.us-east-1.rds.amazonaws.com    Database: bdnovo
 -- ------------------------------------------------------
 -- Server version	8.0.28
 
@@ -14,14 +14,11 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
-SET @@SESSION.SQL_LOG_BIN= 0;
 
 --
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 
 --
 -- Table structure for table `clientes`
@@ -100,6 +97,24 @@ LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `pedidos_BEFORE_INSERT` BEFORE INSERT ON `pedidos` FOR EACH ROW BEGIN
+   set New.idpedidos = (select numerodopedido from parametros where idparametros = 1) ;
+   update parametros set  numerodopedido = numerodopedido + 1   where idparametros = 1 ;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `pedidos_itens`
@@ -120,7 +135,7 @@ CREATE TABLE `pedidos_itens` (
   KEY `ind_idprodutos` (`idprodutos`),
   CONSTRAINT `fk_pedidositens_e_pedidos` FOREIGN KEY (`idpedidos`) REFERENCES `pedidos` (`idpedidos`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_pedidositens_e_produtos` FOREIGN KEY (`idprodutos`) REFERENCES `produtos` (`idprodutos`) ON DELETE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +172,15 @@ LOCK TABLES `produtos` WRITE;
 INSERT INTO `produtos` VALUES (1,'BATATA PALHA 330GM',5.8),(2,'FARINHA DE TRIGO',25.8),(3,'FARINHA DE MILHO',15.8),(4,'FARINHA DE TRIGO',25.8),(5,'FLOCOS DE MILHO',5.8),(6,'FARINHA DE TRIGO',25.8),(7,'FLOCOS DE MILHO',5.8),(8,'BALINLHA',2.3),(9,'DETERGENTE IP 900ML',1.8),(10,'ARROS ZAELY 5 KG',25.8),(11,'FEIJAO OURO VERDE',15.8),(12,'SORVETO 1 KG',2.8),(13,'BANANA KL',5.3),(14,'TOLHA DE PAPEL',2.5),(15,'BOMBRIL',5.8),(16,'BETERRABA EM CALDA',2.8),(17,'GOIABADA EM LATA',1.8),(18,'CREME DE LEITE',5.8),(19,'LEITE EM PO',15.8),(20,'LEITE DE COCO',25.8),(21,'LARANJA',15),(22,'CHINELO HAVAINAS',25.8),(23,'BISS',15.8),(24,'AGUA POTAVEL',25.8),(25,'MACARRAO GALO',15.8),(26,'BATATA',25.8),(27,'OVOS 30 UN',15.8),(28,'BOLACHA DE SAL',25.8),(29,'PAO DE FORMA',15.8),(30,'LINGUIÇA',25.8),(31,'LEITE NESTLE LATA',15.8),(32,'IORGUTE',25.8),(33,'LARANJA',15.8),(34,'BORRACHA BRANCA',25.8),(35,'CHINELO VERDE',15.8);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
-SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+
+--
+-- Dumping events for database 'bdnovo'
+--
+
+--
+-- Dumping routines for database 'bdnovo'
+--
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -168,4 +191,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-01 12:01:13
+-- Dump completed on 2022-11-08 16:30:52
