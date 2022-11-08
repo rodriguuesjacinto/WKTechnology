@@ -13,6 +13,7 @@ object FormPedidosdevendas: TFormPedidosdevendas
   Font.Style = []
   Position = poDesktopCenter
   OnActivate = FormActivate
+  OnCreate = FormCreate
   TextHeight = 15
   object PanelTopo: TPanel
     Left = 0
